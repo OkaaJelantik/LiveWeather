@@ -107,9 +107,9 @@ HARD CONSTRAINTS:
    - `WeatherCard.jsx`: Menampilkan UI suhu, kecepatan angin, dan kode cuaca jika data berhasil di-fetch.
    - `LoadingUI.jsx`: UI indikator saat data cuaca/wilayah sedang dimuat.
    - `ErrorMsg.jsx`: Component alert jika terjadi error jaringan atau data tidak ditemukan.
-5. Code Annotation: Berikan komentar inline singkat pada baris kode kunci dengan tag: `// [useEffect]`, `// [Try/Catch/Finally]`, `// [State Loading]`, dan `// [Error Handling]`.
+5. Code Annotation: Berikan komentar inline singkat pada baris kode kunci dengan tag.
 
-STYLING & VIBE (Tailwind CSS):
+STYLING & VIBE:
 - Tema "Dark Weather Dashboard": Gunakan background `bg-slate-900`, teks `text-white`, card `bg-slate-800` dengan border `border-teal-500`, dan aksen warna `text-teal-400`.
 - Tambahkan icon pendukung menggunakan `lucide-react` (seperti Wind, Termometer, MapPin, Search).
 ```
