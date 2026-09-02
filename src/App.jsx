@@ -31,8 +31,7 @@ function App() {
       setLoading(true)    // [State Loading] aktifkan indikator loading
       setError(null)      // reset error sebelumnya
       try {               // [Try/Catch/Finally] mulai blok pengambilan data
-        // Panggil lewat Vite proxy /api/wilayah → https://wilayah.id/api
-        const res = await fetch('/api/wilayah/provinces.json')
+        const res = await fetch('https://wilayah.id/api/provinces.json')
         if (!res.ok) throw new Error(`Gagal memuat daftar provinsi (${res.status})`) // [Error Handling] cek HTTP error
         const json = await res.json()
         setProvinsiList(normalise(json))
@@ -65,7 +64,7 @@ function App() {
       setSelectedKecamatan(null)
       setData(null)
       try {               // [Try/Catch/Finally] mulai blok pengambilan data kota
-        const res = await fetch(`/api/wilayah/regencies/${selectedProvinsi.id}.json`)
+        const res = await fetch(`https://wilayah.id/api/regencies/${selectedProvinsi.id}.json`)
         if (!res.ok) throw new Error(`Gagal memuat daftar kota (${res.status})`) // [Error Handling]
         const json = await res.json()
         setKotaList(normalise(json))
@@ -94,7 +93,7 @@ function App() {
       setSelectedKecamatan(null)
       setData(null)
       try {               // [Try/Catch/Finally]
-        const res = await fetch(`/api/wilayah/districts/${selectedKota.id}.json`)
+        const res = await fetch(`https://wilayah.id/api/districts/${selectedKota.id}.json`)
         if (!res.ok) throw new Error(`Gagal memuat daftar kecamatan (${res.status})`) // [Error Handling]
         const json = await res.json()
         setKecamatanList(normalise(json))
@@ -119,9 +118,9 @@ function App() {
       setError(null)
       setData(null)
       try {               // [Try/Catch/Finally] mulai proses dua-tahap: geocode → cuaca
-        // Langkah 1: Ambil koordinat lat/lon dari Nominatim lewat Vite proxy
+        // Langkah 1: Ambil koordinat lat/lon dari Nominatim (OpenStreetMap)
         const q = encodeURIComponent(`${selectedKecamatan.name}, ${selectedKota?.name}, Indonesia`)
-        const geoRes = await fetch(`/api/nominatim/search?format=json&limit=1&q=${q}`)
+        const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${q}`)
         if (!geoRes.ok) throw new Error(`Gagal memuat koordinat (${geoRes.status})`) // [Error Handling]
         const geoData = await geoRes.json()
         if (!geoData || geoData.length === 0) {
@@ -129,7 +128,7 @@ function App() {
         }
         const { lat, lon } = geoData[0]
 
-        // Langkah 2: Ambil data cuaca dari Open-Meteo (tidak butuh proxy, sudah CORS-friendly)
+        // Langkah 2: Ambil data cuaca dari Open-Meteo menggunakan koordinat
         const weatherRes = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
         )

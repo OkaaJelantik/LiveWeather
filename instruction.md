@@ -5,7 +5,7 @@ Platform Live Weather App Indonesia interaktif berbasis pemilihan wilayah berjen
 HARD CONSTRAINTS:
 1. Tiga State Wajib Fetching: Kelola state `data` (cuaca), `loading` ( boolean indikator), dan `error` (pesan kegagalan) di Parent (`App.jsx`).
 2. Reactive Fetch & useEffect Berjenjang:
-   - `useEffect(..., [])`: Fetch daftar Provinsi dari `/api/wilayah/provinces.json` (proxy ke `https://wilayah.id/api/provinces.json`) sekali saat mount.
+   - `useEffect(..., [])`: Fetch daftar Provinsi dari `https://wilayah.id/api/provinces.json` sekali saat mount.
    - `useEffect(..., [selectedProvinsi])`: Fetch daftar Kota berdasarkan ID provinsi yang dipilih.
    - `useEffect(..., [selectedKota])`: Fetch daftar Kecamatan berdasarkan ID kota yang dipilih.
    - `useEffect(..., [selectedKecamatan])`: 
