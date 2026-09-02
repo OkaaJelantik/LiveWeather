@@ -5,11 +5,6 @@ import WeatherCard from './components/WeatherCard'
 import LoadingUI from './components/LoadingUI'
 import ErrorMsg from './components/ErrorMsg'
 
-// === HELPER: normalise respons wilayah.id ke format { id, name } ===
-// wilayah.id mengembalikan { data: [{ code, name }] }
-const normalise = (json) =>
-  (json.data || json).map((item) => ({ id: item.code ?? item.id, name: item.name }))
-
 function App() {
   // === STATE UTAMA ===
   const [provinsiList, setProvinsiList] = useState([])
@@ -31,10 +26,10 @@ function App() {
       setLoading(true)    // [State Loading] aktifkan indikator loading
       setError(null)      // reset error sebelumnya
       try {               // [Try/Catch/Finally] mulai blok pengambilan data
-        const res = await fetch('https://wilayah.id/api/provinces.json')
+        const res = await fetch('https://cdn.jsdelivr.net/gh/emsifa/api-wilayah-indonesia@gh-pages/api/provinces.json')
         if (!res.ok) throw new Error(`Gagal memuat daftar provinsi (${res.status})`) // [Error Handling] cek HTTP error
         const json = await res.json()
-        setProvinsiList(normalise(json))
+        setProvinsiList(json)
       } catch (err) {     // [Try/Catch/Finally] tangkap error jaringan / HTTP
         setError(err.message)
       } finally {         // [Try/Catch/Finally] selalu matikan loading di sini
@@ -64,10 +59,12 @@ function App() {
       setSelectedKecamatan(null)
       setData(null)
       try {               // [Try/Catch/Finally] mulai blok pengambilan data kota
-        const res = await fetch(`https://wilayah.id/api/regencies/${selectedProvinsi.id}.json`)
+        const res = await fetch(
+          `https://cdn.jsdelivr.net/gh/emsifa/api-wilayah-indonesia@gh-pages/api/regencies/${selectedProvinsi.id}.json`
+        )
         if (!res.ok) throw new Error(`Gagal memuat daftar kota (${res.status})`) // [Error Handling]
         const json = await res.json()
-        setKotaList(normalise(json))
+        setKotaList(json)
       } catch (err) {     // [Try/Catch/Finally] tangkap error
         setError(err.message)
       } finally {         // [Try/Catch/Finally]
@@ -93,10 +90,12 @@ function App() {
       setSelectedKecamatan(null)
       setData(null)
       try {               // [Try/Catch/Finally]
-        const res = await fetch(`https://wilayah.id/api/districts/${selectedKota.id}.json`)
+        const res = await fetch(
+          `https://cdn.jsdelivr.net/gh/emsifa/api-wilayah-indonesia@gh-pages/api/districts/${selectedKota.id}.json`
+        )
         if (!res.ok) throw new Error(`Gagal memuat daftar kecamatan (${res.status})`) // [Error Handling]
         const json = await res.json()
-        setKecamatanList(normalise(json))
+        setKecamatanList(json)
       } catch (err) {     // [Try/Catch/Finally]
         setError(err.message)
       } finally {         // [Try/Catch/Finally]
@@ -205,7 +204,7 @@ function App() {
 
       {/* === FOOTER === */}
       <footer className="text-center py-6 text-slate-600 text-xs border-t border-slate-800">
-        Data cuaca: <span className="text-slate-500">Open-Meteo</span> · Wilayah: <span className="text-slate-500">wilayah.id</span> · Geocode: <span className="text-slate-500">OpenStreetMap Nominatim</span>
+        Data cuaca: <span className="text-slate-500">Open-Meteo</span> · Wilayah: <span className="text-slate-500">emsifa (jsDelivr CDN)</span> · Geocode: <span className="text-slate-500">OpenStreetMap Nominatim</span>
       </footer>
     </div>
   )
